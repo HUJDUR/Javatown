@@ -2,6 +2,8 @@ package PrviZadatak;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -24,7 +26,7 @@ public class Maratonac  {
 		
 	}
 	
-	public static void rastavljanjeMaratonaca() throws FileNotFoundException {
+	public static void rastavljanjeUcesnika() throws FileNotFoundException {
 		
 		File maraton = new File("C:\\Users\\Korisnik\\Desktop\\maraton.txt");
 		Scanner file = new Scanner(maraton);
@@ -35,6 +37,43 @@ public class Maratonac  {
 		file.close();
 	}
 	
+	public static Maratonac rezultat(String unos) {
+		
+		for (int i = 0; i < maratonci.size(); i++) 
+			if (maratonci.get(i).imeUcesnika.equals(unos))
+				return maratonci.get(i);
+		
+		
+		return null;
+	}
+	
+	public static int prosjecnoVrijeme() {
+		
+		int vrijeme = 0;
+		
+		for(int i = 0; i < maratonci.size(); i++) 
+			vrijeme += maratonci.get(i).vrijemeMaratona;
+		
+		return vrijeme/maratonci.size();		
+	}
+	
+	public static void najbrziUcesnici() throws IOException {
+		
+		ArrayList<Maratonac> najbrzi = new ArrayList<>();
+		
+		for(int i = 0; i < maratonci.size(); i++) {
+			if(maratonci.get(i).vrijemeMaratona < 300)
+				najbrzi.add(maratonci.get(i));
+		}
+		
+		File file = new File("najboljiMaratonci.txt");
+		FileWriter writer = new FileWriter(file);
+		
+		for(int i = 0; i < najbrzi.size(); i++)
+			writer.write(najbrzi.get(i).imeUcesnika + " " + najbrzi.get(i).vrijemeMaratona + System.lineSeparator());
+		
+		writer.close();
+	}
 	
 	public static ArrayList<Maratonac> sortiranje() {
 		
